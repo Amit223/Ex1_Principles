@@ -17,9 +17,11 @@ class ComplexNum():
     def to_tuple(self):
         return self.tuple
 
-    #4 creates string the represents the complex num
-    def __repr__(self):
-        return str(self.tuple[0])+" + "+str(self.tuple[1])+"i"
+    # 4 creates string the represents the complex num
+    def _repr_(self):
+        if self.tuple[1] > 0:
+            return str(self.tuple[0]) + " + " + str(self.tuple[1]) + "i"
+        return str(self.tuple[0]) + " - " + str(abs(self.tuple[1])) + "i"
 
     #5 checks equality: returns true only if other is complex num and its re,im equals to self's re and im
     def __eq__(self, other):
@@ -40,18 +42,22 @@ class ComplexNum():
     def __sub__(self, other):
         return self+other.__neg__()
 
-    #8 mul funtion
-    def __mul__(self, other):
-        #todo
-        return None
+    # 8 mul funtion
+    def _mul_(self, other):
+        try:
+            complexNum = ComplexNum(self.re * other.re - self.im * other.im,
+                                    self.re * other.im + self.im * other.re)
+            return complexNum
+        except:
+            raise ValueError('Complex multiplication only defined for Complex Numbers')
 
-    #9 conjugate
+    # 9 conjugate
     def conjugate(self):
-        #todo
-        return None
+        conjugateIs = ComplexNum(self.re, -self.im)
+        return conjugateIs
 
-    #10 abs
+    # 10 abs
     def abs(self):
-        #todo
-        return None
-
+        other = self.conjugate()
+        return math.sqrt(
+            pow(self.re * other.re - self.im * other.im, 2) + pow(self.re * other.im + self.im * other.re, 2))
