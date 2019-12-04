@@ -1,3 +1,6 @@
+import math
+
+
 class ComplexNum():
 
     #1 init function
