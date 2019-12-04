@@ -76,13 +76,73 @@ class ComplexNum():
         return math.sqrt((self*other).re)
 
 
+class Add(ComplexNum):
+    x=2
+class Add2(Add):
+    y=9
+class Add3(Add2):
+    y=9
 
+class Add22(Add2):
+    t=4
 #2
 #a
-#def isInstancePP(object1,classInfo):
- #   return True
+def isInstancePPL(object1,classInfo):
+    if type(object1) is classInfo:
+        return True
+    if len(classInfo.__subclasses__())==0:
+        return False
+    subs=classInfo.__subclasses__()
+    ans=False
+    for sub in subs:
+        ans=isInstancePPL(object1,sub)or ans
+    return ans
 
+#b
+def numInstancePPL(object1,classInfo):
+    if not isInstancePPL(object1,classInfo):
+        return 0
+    else:
+        if type(object1) is classInfo:
+            return 0
+        if len(classInfo.__subclasses__()) == 0:
+            return 0
+        if type(object1) in classInfo.__subclasses__():
+            return 1
+        subs = classInfo.__subclasses__()
+        ans = 0
+        for sub in subs:
+            ans = numInstancePPL(object1, sub) + ans +1
+        return ans
 
+#c
+def isSubclassPPL(__class,classInfo):
+    if __class is classInfo:
+        return True
+    if len(classInfo.__subclasses__()) == 0:
+        return False
+    subs = classInfo.__subclasses__()
+    ans = False
+    for sub in subs:
+        ans = isSubclassPPL(__class, sub) or ans
+    return ans
+
+#d
+def numSubclassPPL(__class,classInfo):
+    if not isSubclassPPL(__class,classInfo):
+        return 0
+    else:
+        if __class is classInfo:
+            return 1
+        if len(classInfo.__subclasses__()) == 0:
+            return 0
+        if __class in classInfo.__subclasses__():
+            return 2
+        subs = classInfo.__subclasses__()
+        ans = 0
+        for sub in subs:
+            ans = numSubclassPPL(__class, sub) + ans +1
+        return ans
 
 #3
 print("---------------------------------------------")
@@ -92,8 +152,8 @@ def count_if(lst,func):
     return len(list(filter(func,lst)))
 
 #test
-print(count_if([1,0,8],lambda x:x>2),":need to be 1")
-print(count_if([1,1,8],lambda x:x==1),":need to be 2")
+print("Test 1 passed:",count_if([1,0,8],lambda x:x>2)==1)
+print("Test 2 passed:",count_if([1,1,8],lambda x:x==1)==2)
 
 
 #b
@@ -101,8 +161,8 @@ def for_all(lst,func1,func2):
     return len(list(filter(func2,list(map(func1,lst)))))==len(lst)
 
 #test
-print(for_all([1,0,8],lambda x:x*2,lambda x:x>0),":need to be False")
-print(for_all([1,1,8],lambda x:x,lambda x:x>0),":need to be True")
+print("Test 3 passed:",for_all([1,0,8],lambda x:x*2,lambda x:x>0)==False)
+print("Test 4 passed:",for_all([1,1,8],lambda x:x,lambda x:x>0)==True)
 
 
 #c
@@ -110,8 +170,8 @@ def for_all_red(lst,func1,func2):
     return len(list(filter(func2,[reduce(func1,lst)])))==1
 
 #test
-print(for_all_red([1,0,8],lambda x,y:x*y,lambda x:x>0),":need to be False")
-print(for_all_red([1,1,8],lambda x,y:x*y,lambda x:x>7),":need to be True")
+print("Test 5 passed:",for_all_red([1,0,8],lambda x,y:x*y,lambda x:x>0)==False)
+print("Test 6 passed:",for_all_red([1,1,8],lambda x,y:x*y,lambda x:x>7)==True)
 
 
 #d
@@ -119,6 +179,6 @@ def there_exist(lst,n,func1):
     return len(list(filter(func1,lst)))>=n
 
 #test
-print(there_exist([1,0,8],2,lambda x:x>1),":need to be False")
-print(there_exist([1,1,8],2,lambda x:x>0),":need to be True")
+print("Test 7 passed:",there_exist([1,0,8],2,lambda x:x>1)==False)
+print("Test 8 passed:",there_exist([1,1,8],2,lambda x:x>0)==True)
 
