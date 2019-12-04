@@ -21,10 +21,21 @@ class ComplexNum():
         return self.tuple
 
     # 4 creates string the represents the complex num
-    def _repr_(self):
-        if self.tuple[1] > 0:
-            return str(self.tuple[0]) + " + " + str(self.tuple[1]) + "i"
-        return str(self.tuple[0]) + " - " + str(abs(self.tuple[1])) + "i"
+    def __repr__(self):
+        if self.im > 0:
+            if self.re != 0:
+                return str(self.re) + " + " + str(self.im) + "i"
+            else :
+                return str(self.im) + "i"
+        elif self.im <0:
+            if self.re != 0:
+                return str(self.re) + " - " + str(abs(self.im)) + "i"
+            else:
+                return " - " + str(abs(self.im)) + "i"
+        else:
+            return str(self.re)
+
+
 
     #5 checks equality: returns true only if other is complex num and its re,im equals to self's re and im
     def __eq__(self, other):
@@ -46,7 +57,7 @@ class ComplexNum():
         return self+other.__neg__()
 
     # 8 mul funtion
-    def _mul_(self, other):
+    def __mul__(self, other):
         try:
             complexNum = ComplexNum(self.re * other.re - self.im * other.im,
                                     self.re * other.im + self.im * other.re)
@@ -62,15 +73,8 @@ class ComplexNum():
     # 10 abs
     def abs(self):
         other = self.conjugate()
-        return math.sqrt(
-            pow(self.re * other.re - self.im * other.im, 2) + pow(self.re * other.im + self.im * other.re, 2))
+        return math.sqrt((self*other).re)
 
-
-
-class Add(ComplexNum):
-    x=5
-
-x=Add(1,2)
 
 
 #2
