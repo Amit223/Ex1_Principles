@@ -1,6 +1,6 @@
 import math
-
-
+from functools import reduce
+#1
 class ComplexNum():
 
     #1 init function
@@ -64,3 +64,57 @@ class ComplexNum():
         other = self.conjugate()
         return math.sqrt(
             pow(self.re * other.re - self.im * other.im, 2) + pow(self.re * other.im + self.im * other.re, 2))
+
+
+
+class Add(ComplexNum):
+    x=5
+
+x=Add(1,2)
+
+
+#2
+#a
+#def isInstancePP(object1,classInfo):
+ #   return True
+
+
+
+#3
+print("---------------------------------------------")
+print("Question 3")
+#a
+def count_if(lst,func):
+    return len(list(filter(func,lst)))
+
+#test
+print(count_if([1,0,8],lambda x:x>2),":need to be 1")
+print(count_if([1,1,8],lambda x:x==1),":need to be 2")
+
+
+#b
+def for_all(lst,func1,func2):
+    return len(list(filter(func2,list(map(func1,lst)))))==len(lst)
+
+#test
+print(for_all([1,0,8],lambda x:x*2,lambda x:x>0),":need to be False")
+print(for_all([1,1,8],lambda x:x,lambda x:x>0),":need to be True")
+
+
+#c
+def for_all_red(lst,func1,func2):
+    return len(list(filter(func2,[reduce(func1,lst)])))==1
+
+#test
+print(for_all_red([1,0,8],lambda x,y:x*y,lambda x:x>0),":need to be False")
+print(for_all_red([1,1,8],lambda x,y:x*y,lambda x:x>7),":need to be True")
+
+
+#d
+def there_exist(lst,n,func1):
+    return len(list(filter(func1,lst)))>=n
+
+#test
+print(there_exist([1,0,8],2,lambda x:x>1),":need to be False")
+print(there_exist([1,1,8],2,lambda x:x>0),":need to be True")
+
